@@ -585,11 +585,8 @@
                 <!--            <feather type="maximize"></feather-->
                 <!--          ></a>-->
                 <!--        </li>-->
-                <li class="profile-nav p-0 mr-0" :class="{
-                    'onhover-dropdown': isMobile,
-                    'd-block': !isMobile
-                }">
-                    <div class="media profile-media" @click="openProfile=!openProfile">
+                <li class="profile-nav p-0 mr-0" :class="{'onhover-dropdown': isMobile,}" style="display: block!important;">
+                    <div class="media profile-media" @click="isMobile ? openProfile=!openProfile:null">
                         <img
                                 class="b-r-10"
                                 src="../../assets/images/dashboard/profile.jpg"
@@ -604,10 +601,10 @@
                         </div>
                     </div>
                     <ul v-if="userName == null" class="profile-dropdown" :class="{
-                        active: openProfile,
-                        'd-none':!openProfile,
-                        'show-div':!isMobile,
-                        'onhover-show-div':isMobile
+                        active: isMobile ? true : openProfile,
+                        'd-none': !openProfile,
+                        'show-div': !isMobile,
+                        'onhover-show-div': isMobile
                     }" >
                         <li>
                             <a @click="$router.push({path: 'login'})"
@@ -616,7 +613,12 @@
                                 <span>Login </span></a>
                         </li>
                     </ul>
-                    <ul v-else class="profile-dropdown onhover-show-div">
+                    <ul v-else class="profile-dropdown" :class="{
+                        active: isMobile ? true : openProfile,
+                        'd-none': !openProfile,
+                        'show-div': !isMobile,
+                        'onhover-show-div': isMobile
+                    }">
                         <li>
                             <a @click="$router.push({path: 'account'})"
                             >
@@ -642,7 +644,10 @@
                         </li>
                     </ul>
                 </li>
-                <li style="margin-left: 10px;">
+
+                <li style="margin-left: 10px;" :class="{
+                    'd-none': isMobile
+                }">
                     <div class="toggle-sidebar" style="display:block!important;position: initial!important;"
                          @click="toggle_sidebar">
                         <feather
@@ -730,11 +735,7 @@
         },
         methods: {
             isMobile() {
-                if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    return true
-                } else {
-                    return false
-                }
+               return screen.width <= 760
             },
             getUser() {
                 this.userName = this.$store.getters.getName
