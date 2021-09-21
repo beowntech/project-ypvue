@@ -207,11 +207,11 @@ export default {
           this.$acl.change(res.data.roles[0].toLowerCase())
           // console.log(this.$acl.)
           if(res.data.roles[0].toLowerCase() == "editor") {
-            this.$router.replace('/dashboard/properties')
+            this.$router.replace('/admin/properties')
           }else if(res.data.roles[0].toLowerCase() == "admin"){
-            this.$router.replace('/dashboard/properties')
+            this.$router.replace('/admin/properties')
           }else if(res.data.roles[0].toLowerCase() == "super admin"){
-            this.$router.replace('/dashboard/dashboard')
+            this.$router.replace('/admin/dashboard')
           }
         }else{
           this.progressValue = 0

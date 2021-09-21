@@ -224,7 +224,11 @@ import Categories from '../pages/site/categories/index'
 
 import Hiring from '../pages/site/features/hiring/index'
 
-import Landing from '../pages/site/front/landing'
+import Landing from '../front/index'
+import FrontSearch from '../front/search'
+import FrontDetail from '../front/detail'
+
+import Seo from '../pages/site/seo/index'
 
 // Gallery
 import GridGallery from '../pages/gallery/grid-gallery';
@@ -241,6 +245,7 @@ import CoursePage from '../pages/site/course/index';
 import CourseUpdatePage from '../pages/site/course/update';
 import TeacherPage from '../pages/site/teacher/index';
 import SettingPage from '../pages/site/setting/index';
+import KeywordPage from '../pages/site/keyword/index';
 import SupportPage from '../pages/site/support/index';
 import PropertyPage from '../pages/site/properties/index';
 import AccountPage from '../pages/site/account/index';
@@ -272,13 +277,31 @@ const routes = [
                 component: Landing,
                 meta: {
                     rule: 'public',
-                    title: 'Default Dashboard | Cuba - Premium Admin Template',
+                    title: 'Landing',
+                }
+            },
+            {
+                path: 'search',
+                name: 'search',
+                component: FrontSearch,
+                meta: {
+                    rule: 'public',
+                    title: 'Search',
+                }
+            },
+            {
+                path: 'yoga-in-:city/:slug',
+                name: 'propertyDetail',
+                component: FrontDetail,
+                meta: {
+                    rule: 'public',
+                    title: 'Detail',
                 }
             },
         ]
     },
     {
-        path: '/dashboard',
+        path: '/admin',
         component: Body,
         meta: {
             rule: 'public',
@@ -304,7 +327,7 @@ const routes = [
                 }
             },
             {
-                path: 'info',
+                path: 'property/info',
                 name: 'Info',
                 component: InfoPage,
                 meta: {
@@ -313,7 +336,7 @@ const routes = [
                 }
             },
             {
-                path: 'course',
+                path: 'property/course',
                 name: 'Course',
                 component: CoursePage,
                 meta: {
@@ -322,7 +345,7 @@ const routes = [
                 }
             },
             {
-                path: 'course/update/:courseId',
+                path: 'property/course/update/:courseId',
                 name: 'Update Course',
                 component: CourseUpdatePage,
                 meta: {
@@ -331,7 +354,7 @@ const routes = [
                 }
             },
             {
-                path: 'media',
+                path: 'property/media',
                 name: 'Media',
                 component: MediaPage,
                 meta: {
@@ -340,7 +363,16 @@ const routes = [
                 }
             },
             {
-                path: 'review',
+                path: 'property/seo',
+                name: 'SEO',
+                component: Seo,
+                meta: {
+                    rule: 'multiple',
+                    title: 'SEO | Admin Template',
+                }
+            },
+            {
+                path: 'property/review',
                 name: 'Review',
                 component: ReviewPage,
                 meta: {
@@ -349,7 +381,7 @@ const routes = [
                 }
             },
             {
-                path: 'yoga-guru',
+                path: 'property/yoga-guru',
                 name: 'Teacher',
                 component: TeacherPage,
                 meta: {
@@ -364,6 +396,15 @@ const routes = [
                 meta: {
                     rule: 'multiple',
                     title: 'Setting | Admin Template',
+                }
+            },
+            {
+                path: 'keywords',
+                name: 'Keywords',
+                component: KeywordPage,
+                meta: {
+                    rule: 'multiple',
+                    title: 'Keyword | Admin Template',
                 }
             },
             {
@@ -1562,7 +1603,7 @@ const routes = [
                 name: 'Login 1',
                 component: login,
                 meta: {
-                    rule: 'public',
+                    rule: 'editor',
                     title: ' login | Cuba - Premium Admin Template',
                 }
             },
@@ -1910,25 +1951,26 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     // next();
-    // console.log(to.path);
-    const token = store.getters.getToken;
-    if(to.path !== '/') {
-        if (to.path !== '/auth/login') {
-            if (token != null) {
-                next();
-            } else {
-                next('/auth/login');
-            }
-        } else {
-            if (token != null) {
-                next();
-            } else {
-                next();
-            }
-        }
-    }else{
+    // console.log(to.meta.rule);
+    // const token = store.getters.getToken;
+    // if (to.meta.rule !== 'public') {
+    //     if (to.path !== '/auth/login') {
+    //         if (token != null) {
+    //             next();
+    //         } else {
+    //             next('/auth/login');
+    //         }
+    //     } else {
+    //         if (token != null) {
+    //             next();
+    //         }
+    //         else {
+    //             next();
+    //         }
+    //     }
+    // } else {
         next();
-    }
+    // }
     // next(); - This is in the wrong place
     // firebase.auth().onAuthStateChanged(() => {
     //   if(to.meta.title)

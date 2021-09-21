@@ -9,7 +9,7 @@
 <!--        <div class="sidebar-wrapper" :class="[{ close_icon : !togglesidebar }, layout.settings.sidebar_backround]" :sidebar-layout="layout.settings.sidebar_setting">-->
 <!--          <Sidebar @clicked="sidebar_toggle" />-->
 <!--        </div>-->
-        <div class="page-body" style="margin-top: 0!important;">
+        <div style="margin-top: 0!important;">
           <transition name="fadeIn" enter-active-class="animated fadeIn">
            <router-view class="view"></router-view>
           </transition>
@@ -93,11 +93,25 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
   .progressing{
       border-bottom-color: transparent;
       animation: 1s progressing linear infinite;
       position: relative;
+  }
+
+  .seo-button {
+      background-image: -webkit-gradient(linear, left top, right top, from(var(--theme-deafult)), to(#91d468));
+      -webkit-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+      position: relative;
+      border: 0px !important;
+      -webkit-box-shadow: 0px 0px 12px 0px rgb(115, 102, 255, 0.35) !important;
+      box-shadow: 0px 0px 12px 0px rgb(115, 102, 255, 0.35) !important;
+      margin-bottom: 10px;
+      position: fixed;
+      right: 0;
+      top: 105px;
   }
 
 </style>

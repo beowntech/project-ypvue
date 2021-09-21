@@ -105,12 +105,25 @@ var filter = function(text, length, clamp){
 
 Vue.filter('truncate', filter);
 
+var filtersmall = function(text, length, clamp){
+  clamp = clamp || '...';
+  var node = document.createElement('div');
+  node.innerHTML = text;
+  var content = node.textContent;
+  return content.slice(0, 250) + clamp;
+};
+
+Vue.filter('truncatesmall', filtersmall);
+
 Vue.filter('stripHTML', function (value) {
   const div = document.createElement('div')
   div.innerHTML = value
   const text = div.textContent || div.innerText || ''
   return text !== undefined ? text : ''
 });
+
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta)
 
 Vue.config.productionTip = false
 firebase.initializeApp(config.firebase);

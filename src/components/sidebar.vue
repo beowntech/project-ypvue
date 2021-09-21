@@ -371,7 +371,7 @@ export default {
     removeProperty(){
       this.$store.commit('removeProperty')
       this.showMenu = false
-      this.$router.replace('/dashboard/properties')
+      this.$router.replace('/admin/properties')
     },
     checkAfterSelect(val){
       if(this.showMenu){

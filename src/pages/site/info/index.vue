@@ -251,6 +251,23 @@
                                 <div class="col-1 px-1"><i class="fa fa-pencil pcolor edit-pencil"
                                                            v-b-modal.modal-bio></i></div>
                             </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-1 px-1  text-center"><i
+                                        class="fa fa-file-code-o pcolor edit-pencil"></i></div>
+                                <div class="col-10 px-2" v-if="keywordsSelected.length > 0">
+                                    <p class="font-weight-bold">Keywords</p>
+                                    <b-badge class="mb-1" :class="{
+                                        'ml-0': i % 2 == 0
+                                    }" v-for="(data,i) in keywordsSelected" :key="i" pill variant="primary">{{data.name}} </b-badge>
+                                </div>
+                                <div class="col-10 px-2" v-else>
+                                    <p>Add Keywords to Rank More</p>
+                                </div>
+                                <div class="col-1 px-1">
+                                    <i class="fa fa-pencil pcolor edit-pencil" v-b-modal.modal-keywords></i>
+                                </div>
+                            </div>
 
                         </div>
 
@@ -571,6 +588,24 @@
                </div>
            </div>
         </b-modal>
+
+        <b-modal id="modal-keywords"
+                 centered
+                 title="Property Keywords"
+                 ok-title="Update"
+                 @ok="updateKeywords" class="theme-modal">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Keywords Selected</label>
+                </div>
+                <div class="col-md-12">
+                    <b-badge v-for="(data,i) in keywordsSelected" :key="i" pill variant="primary">{{data.name}} <feather type="x-square" @click="removeKeyword(i)"></feather></b-badge>
+                </div>
+                <div class="col-md-12 mt-3">
+                    <v-select taggable :closeOnSelect="false" v-model="selectedKeyword" :options="keywords" />
+                </div>
+            </div>
+        </b-modal>
     </div>
 </template>
 <script>
@@ -582,6 +617,8 @@
     import apiUrls from "../../../_helpers/apiUrls";
     import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
     import CKEditor from "@ckeditor/ckeditor5-vue";
+    import vSelect from "vue-select";
+    import "vue-select/dist/vue-select.css";
 
     export default {
         name: "info",
@@ -591,6 +628,9 @@
                 properties: {},
                 propertyName: "",
                 propertyAddress: "",
+                keywords:[],
+                selectedKeyword: [],
+                keywordsSelected: [],
                 streetName: "",
                 pinCode: "",
                 countries: [],
@@ -777,8 +817,17 @@
             }
         },
         watch: {
+            selectedKeyword: function(val){
+                if(!this.keywordsSelected.includes(val)) {
+                    if(this.keywordsSelected.length < 3) {
+                        this.keywordsSelected.push({name: val.label,id: val.value})
+                    }else{
+                        this.alert('You Cannot add more than 3 Keywords','danger','danger','top-center')
+                    }
+                    // this.selectedKeyword = []
+                }
+            },
             selectCertificate: function(val){
-                console.log(val)
                 if(val.length != 0) {
                     if (!this.selectedCertificates.some(item => item['id'] === val.id)) {
                         this.selectedCertificates.push({img: val.img, id: val.id})
@@ -801,9 +850,56 @@
         },
         components: {
             Multiselect,
+            vSelect,
             ckeditor: CKEditor.component
         },
         methods: {
+            updateKeywords(){
+                let formData = new FormData()
+                var keyword = [];
+                var noKeyword = [];
+                for (var i=0; i < this.keywordsSelected.length; i++) {
+                    if(this.keywordsSelected[i].id != undefined){
+                        keyword.push(this.keywordsSelected[i].id)
+                    }else{
+                        noKeyword.push(this.keywordsSelected[i].name)
+                    }
+                }
+                formData.append('id',this.$store.getters.getProperty[0].id)
+                formData.append('keywords',JSON.stringify(keyword))
+                formData.append('noKeywords',JSON.stringify(noKeyword))
+                axios.post(api.addKeywordProperty,formData)
+                    .then(() => {
+                       this.alert('Keyword Updated Successfully','success','success','top-center')
+                    }).catch((err) => {
+                    console.log(err)
+                })
+            },
+            getPropertyKeywords(){
+                axios.post(api.getKeywordProperty,{
+                    prop_id: this.$store.getters.getProperty[0].id
+                }).then((res) => {
+                    var loop = res.data[0].keyword
+                        for(var i=0; i < loop.length; i++) {
+                            this.keywordsSelected.push({id: loop[i].id,name: loop[i].name})
+                        }
+                    }).catch((err) => {
+                    console.log(err)
+                })
+            },
+            removeKeyword(index){
+                this.keywordsSelected.splice(index,1)
+            },
+            getKeywords(){
+                axios.post(api.getKeywords)
+                    .then((res) => {
+                        for(var i=0; i < res.data.length; i++) {
+                            this.keywords.push({label: res.data[i].name,value:res.data[i].id})
+                        }
+                    }).catch((err) => {
+                    console.log(err)
+                })
+            },
             deleteCertificate(index){
               this.selectedCertificates.splice(index,1)
             },
@@ -878,7 +974,7 @@
             },
             getProperties(val) {
                 if(this.$store.getters.getProperty[0].id == null){
-                    this.$router.push({path: 'dashboard/properties'})
+                    this.$router.push({path: 'admin/properties'})
                 }
                 axios.post(api.getProperty, {
                     prop_id: this.$store.getters.getProperty[0].id
@@ -1178,6 +1274,8 @@
             this.getCertificates()
             this.getServices()
             this.getSocialPlatforms()
+            this.getKeywords()
+            this.getPropertyKeywords()
         },
     }
 </script>

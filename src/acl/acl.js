@@ -5,17 +5,16 @@ import {store} from '../store/index'
 
 Vue.use(AclInstaller)
 
-let currentRole = 'editor';
+let currentRole = 'public';
 
 let role = store.getters.getRole;
-console.log(role)
 if(role != null) currentRole = role
+console.log(currentRole)
 
 export default new AclCreate({
     initial: currentRole,
     notfound: {
-        path: '/error',
-        forwardQueryParams: true,
+        path: '/auth/login',
     },
     router,
     acceptLocalRules: true,

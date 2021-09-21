@@ -8,22 +8,22 @@
       "afterSelect": true
     },
     {
-      "path": "/dashboard/properties",
-      "title": "Properties",
+      "path": "/admin/properties",
+      "title": "property",
       "icon": "align-justify",
       "type": "link",
       "afterSelect": false,
       "active": false
     },
     {
-      "path": "/dashboard/dashboard",
+      "path": "/admin/dashboard",
       "title": "Home",
       "icon": "home",
       "type": "link",
       "active": false
     },
     {
-      "path": "/dashboard/info",
+      "path": "/admin/property/info",
       "title": "Info",
       "icon": "airplay",
       "type": "link",
@@ -31,7 +31,15 @@
       "active": false
     },
     {
-      "path": "/dashboard/review",
+      "path": "/admin/property/seo",
+      "title": "SEO",
+      "icon": "slack",
+      "type": "link",
+      "afterSelect": true,
+      "active": false
+    },
+    {
+      "path": "/admin/property/review",
       "title": "Review",
       "icon": "clipboard",
       "type": "link",
@@ -39,7 +47,7 @@
       "active": false
     }, 
     {
-      "path": "/dashboard/media",
+      "path": "/admin/property/media",
       "title": "Media",
       "icon": "image",
       "type": "link",
@@ -47,7 +55,7 @@
       "active": false
     }, 
     {
-      "path": "/dashboard/course",
+      "path": "/admin/property/course",
       "title": "Course",
       "icon": "book",
       "type": "link",
@@ -55,7 +63,7 @@
       "active": false
     }, 
     {
-      "path": "/dashboard/yoga-guru",
+      "path": "/admin/property/yoga-guru",
       "title": "Yoga Guru",
       "icon": "user",
       "type": "link",
@@ -87,6 +95,13 @@
       "path": "/certificates/add",
       "title": "Certificates",
       "icon": "award",
+      "type": "link",
+      "active": false
+    },
+    {
+      "path": "/admin/keywords",
+      "title": "Keywords",
+      "icon": "list",
       "type": "link",
       "active": false
     },
@@ -127,14 +142,14 @@
       "type": "headtitle"
     },
     {
-      "path": "/dashboard/settings",
+      "path": "/admin/settings",
       "title": "Settings",
       "icon": "settings",
       "type": "link",
       "active": false
     },
     {
-      "path": "/dashboard/support",
+      "path": "/admin/support",
       "title": "Support",
       "icon": "alert-circle",
       "type": "link",

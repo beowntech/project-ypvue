@@ -2,11 +2,11 @@
   <div id="app">
   <!-- Loader starts-->
     <vue-ins-progress-bar></vue-ins-progress-bar>
-    <div class="loader-wrapper" :class="{'loderhide' : !show }">
-      <div class="loader-index">
-        <span></span>
-      </div>
-    </div>
+<!--    <div class="loader-wrapper" :class="{'loderhide' : !show }">-->
+<!--      <div class="loader-index">-->
+<!--        <span></span>-->
+<!--      </div>-->
+<!--    </div>-->
   <!-- Loader ends-->
 
     <!--<Main/>-->
@@ -18,6 +18,18 @@
 <script>
 export default {
   name: 'app',
+  metaInfo() {
+    return {
+      title: "Yog Prerna",
+      meta: [
+        { name: 'description', content:  'Yog Prerna Description'},
+        { property: 'og:title', content: "Yog Prerna Description Title"},
+        { property: 'og:site_name', content: 'Yog Prerna Description Sitem Name'},
+        {property: 'og:type', content: 'website'},
+        {name: 'robots', content: 'index,follow'}
+      ]
+    }
+  },
   data(){
     return{
       show: true,

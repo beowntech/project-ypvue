@@ -15,6 +15,7 @@ import courses from './modules/courses'
 import common from './modules/common'
 import property from './modules/property'
 import loading from './modules/pageloading'
+import {search} from './modules/search'
 import { alert } from './modules/alert'
 import { authentication } from './modules/authentication'
 import { users } from './modules/users'
@@ -54,7 +55,8 @@ export const store = new Vuex.Store({
       jobs,
       courses,
       common,
-        loading
+        loading,
+        search,
     },
     plugins: [createPersistedState()]
 });

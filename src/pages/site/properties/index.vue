@@ -136,14 +136,15 @@
             },
             selectProperty(data) {
                 this.$store.commit('setProperty', data)
-                this.$router.replace('/dashboard/dashboard')
+                this.$router.push({path:'/admin/dashboard'})
             },
             editProperty(data) {
                 this.$store.commit('setProperty', data)
-                this.$router.replace('/dashboard/info')
+                this.$router.push({path:'/admin/info'})
             }
         },
         beforeMount() {
+            this.$store.commit('removeProperty')
             this.getProperties()
         },
         components: {Doughnut,modals}
