@@ -254,7 +254,7 @@ import AccountPage from '../pages/site/account/index';
 Vue.use(Router)
 
 const routes = [
-    {path: '', redirect: {name: 'landing'}},
+    {path: '', redirect: {name: 'landing'}, meta: {rule: 'public'}},
     {
         path: '/info',
         name: 'Info',
@@ -269,6 +269,7 @@ const routes = [
         component: FrontBody,
         meta: {
             rule: 'public',
+            requiresAuth: false
         },
         children: [
             {
@@ -304,7 +305,7 @@ const routes = [
         path: '/admin',
         component: Body,
         meta: {
-            rule: 'public',
+            rule: 'dashboard',
             requiresAuth: true
         },
         children: [
@@ -313,7 +314,7 @@ const routes = [
                 name: 'dashboard',
                 component: Default,
                 meta: {
-                    rule: 'public',
+                    rule: 'dashboard',
                     title: 'Default Dashboard | Cuba - Premium Admin Template',
                 }
             },
@@ -1603,7 +1604,7 @@ const routes = [
                 name: 'Login 1',
                 component: login,
                 meta: {
-                    rule: 'editor',
+                    rule: 'public',
                     title: ' login | Cuba - Premium Admin Template',
                 }
             },
@@ -1952,25 +1953,21 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     // next();
     // console.log(to.meta.rule);
-    // const token = store.getters.getToken;
-    // if (to.meta.rule !== 'public') {
-    //     if (to.path !== '/auth/login') {
-    //         if (token != null) {
-    //             next();
-    //         } else {
-    //             next('/auth/login');
-    //         }
-    //     } else {
-    //         if (token != null) {
-    //             next();
-    //         }
-    //         else {
-    //             next();
-    //         }
-    //     }
-    // } else {
+    const token = store.getters.getToken;
+    console.log(token)
+    if (to.meta.rule != 'public') {
+        if (to.path != '/auth/login') {
+            if (token == null) {
+                next('/auth/login');
+            } else {
+                next();
+            }
+        } else {
+            next();
+        }
+    } else {
         next();
-    // }
+    }
     // next(); - This is in the wrong place
     // firebase.auth().onAuthStateChanged(() => {
     //   if(to.meta.title)

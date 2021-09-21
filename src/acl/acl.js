@@ -19,12 +19,13 @@ export default new AclCreate({
     router,
     acceptLocalRules: true,
     globalRules: {
-        public: new AclRule('editor').or('admin').or('super admin').or('user').generate(),
         editor: new AclRule('editor').generate(),
         user: new AclRule('user').generate(),
         admin: new AclRule('admin').generate(),
         multiple: new AclRule('editor').or('admin').generate(),
         superAdmin: new AclRule('super admin').generate(),
+        public: new AclRule('editor').or('admin').or('public').or('super admin').or('user').generate(),
+        dashboard: new AclRule('editor').or('admin').or('dashboard').or('super admin').or('user').generate(),
     },
     // middleware: async acl => {
     //     await timeout(2000) // call your api

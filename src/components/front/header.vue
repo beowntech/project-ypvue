@@ -760,7 +760,7 @@
 <!--                <ion-icon name="add-circle" class="site-icon"></ion-icon>-->
                 Add Listing </a>
           </span>
-                <b-button variant="success" class="seo-button p-0 px-2 m-0" @click="selectProperty(data)" v-if="this.$route.name == 'propertyDetail'">
+                <b-button variant="success" class="seo-button p-0 px-2 m-0" @click="selectProperty(data)" v-if="this.$route.name == 'propertyDetail' || loggedIn">
                     <i class="fa fa-lightbulb-o" style="font-size: 20px;font-size: 20px;padding: 7px;"></i>
                 </b-button>
             </div>
@@ -810,6 +810,7 @@
             ...mapState({
                 menuItems: (state) => state.menu.searchData,
                 megamenuItems: (state) => state.menu.megamenu,
+                loggedIn: (state) => state.userToken
             }),
         },
         methods: {

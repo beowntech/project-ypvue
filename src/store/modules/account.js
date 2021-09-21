@@ -1,6 +1,6 @@
 const state = {
     userToken: null,
-    userRole: 'public',
+    userRole: null,
     userEmail: null,
     userName: null
 };

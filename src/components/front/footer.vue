@@ -98,7 +98,7 @@
 
 
       <!-- Modal -->
-      <b-modal id="front-search-modal" size="lg" title="Search Anything" ok-title="Submit" class="theme-modal">
+      <b-modal id="front-search-modal" size="lg" title="Search Anything...." ok-title="Submit" class="theme-modal">
                       <div class="sticky-top bg-light p-0 m-0">
                           <input class="form-control pt-2 mb-1" placeholder="Type to search...">
                           <p class="mb-0 px-2">Search for: <i class="font-weight-bold">Adiyogi</i> </p>
