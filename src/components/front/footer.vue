@@ -98,17 +98,7 @@
 
 
       <!-- Modal -->
-      <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-xl mt-2">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Search Anything....</h5>
-                      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body vh-80">
+      <b-modal id="front-search-modal" size="lg" title="Search Anything" ok-title="Submit" class="theme-modal">
                       <div class="sticky-top bg-light p-0 m-0">
                           <input class="form-control pt-2 mb-1" placeholder="Type to search...">
                           <p class="mb-0 px-2">Search for: <i class="font-weight-bold">Adiyogi</i> </p>
@@ -122,12 +112,7 @@
                               </div>
                           </a>
                       </div>
-
-                  </div>
-
-              </div>
-          </div>
-      </div>
+      </b-modal>
 
 <!--      <footer class="footer noMargin">-->
 <!--          <div class="container-fluid">-->

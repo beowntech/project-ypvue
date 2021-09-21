@@ -239,7 +239,7 @@
         },
         watch:{
             currentPage: function () {
-                let data = [{'text':this.searchText,'page':this.currentPage}]
+                let data = [{'text':this.searchText,'location':this.locationText,'page':this.currentPage}]
                 this.$store.dispatch('search/fetchSearch',data)
                     .then((res)=>{
                         console.log(res)

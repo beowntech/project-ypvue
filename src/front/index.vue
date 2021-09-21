@@ -9,7 +9,7 @@
                         <h4 class="text-white text-shadow">Yoga Institute, Yoga Courses</h4>
 
                         <div class="search-bar px-3 mt-3">
-                            <input class="form-control rounded-pill" id="exampleDataList"
+                            <input class="form-control rounded-pill" id="exampleDataList" v-b-modal.front-search-modal
                                    placeholder="Type to search..." data-toggle="modal" data-target="#searchModal">
                         </div>
                     </div>
