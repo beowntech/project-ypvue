@@ -706,10 +706,10 @@
                 </div>
                 <div class="col-md-6">
                     <ul class="float-list float-right">
-                        <li><a href="#"><i class="fab fa-facebook-square"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram-square"></i></a></li>
-                        <li><a href="#"><i class="fab fa-pinterest-square"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                        <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram-square"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest-square"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
                         <li  class="ml-3">
                             <select name="" class="price-selecter  price-dropdown">
                                 <option value="$">$</option>
@@ -717,7 +717,7 @@
                             </select>
                         </li>
                         <li class="ml-3">
-                            <a href="#">user <i class="fa fa-user"></i></a>
+                            <router-link class="nav-link" :to="{ name: 'Login'}">user <i class="fa fa-user"></i></router-link>
                         </li>
                     </ul>
                 </div>
@@ -739,9 +739,9 @@
                     <li class="nav-item">
                         <router-link class="nav-link" :to="{ name: ''}">Blogs</router-link>
                     </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" :to="{ name: 'search'}">Search</router-link>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <router-link class="nav-link" :to="{ name: 'search'}">Search</router-link>-->
+<!--                    </li>-->
                     <!-- <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown

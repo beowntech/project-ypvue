@@ -105,6 +105,20 @@
       "type": "link",
       "active": false
     },
+    {
+      "path": "/admin/state",
+      "title": "State",
+      "icon": "map",
+      "type": "link",
+      "active": false
+    },
+    {
+      "path": "/admin/city",
+      "title": "City",
+      "icon": "map",
+      "type": "link",
+      "active": false
+    },
 
     {
       "headTitle1": "Extra Features",

@@ -224,6 +224,9 @@ import Categories from '../pages/site/categories/index'
 
 import Hiring from '../pages/site/features/hiring/index'
 
+import StatePage from '../pages/site/location/state'
+import CityPage from '../pages/site/location/city'
+
 import Landing from '../front/index'
 import FrontSearch from '../front/search'
 import FrontDetail from '../front/detail'
@@ -282,7 +285,7 @@ const routes = [
                 }
             },
             {
-                path: 'search',
+                path: ':location-colleges',
                 name: 'search',
                 component: FrontSearch,
                 meta: {
@@ -406,6 +409,24 @@ const routes = [
                 meta: {
                     rule: 'multiple',
                     title: 'Keyword | Admin Template',
+                }
+            },
+            {
+                path: 'state',
+                name: 'State',
+                component: StatePage,
+                meta: {
+                    rule: 'multiple',
+                    title: 'State | Admin Template',
+                }
+            },
+            {
+                path: 'city',
+                name: 'City',
+                component: CityPage,
+                meta: {
+                    rule: 'multiple',
+                    title: 'City | Admin Template',
                 }
             },
             {
@@ -1601,7 +1622,7 @@ const routes = [
         children: [
             {
                 path: 'login',
-                name: 'Login 1',
+                name: 'Login',
                 component: login,
                 meta: {
                     rule: 'public',

@@ -177,7 +177,7 @@
 <script>
     import axios from 'axios'
     import apiUrls from "../../../_helpers/apiUrls";
-    import Selectize from 'vue2-selectize'
+    // import Selectize from 'vue2-selectize'
 
     export default {
         data() {
@@ -312,14 +312,14 @@
             }
         },
         components:{
-            Selectize
+            // Selectize
         },
         beforeMount() {
             this.getKeywords()
         }
     }
 </script>
-<style>
+<style scoped>
     @import "~selectize/dist/css/selectize.bootstrap3.css";
     .table th, .table td {
         padding: 2px 0.75rem !important;

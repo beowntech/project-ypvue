@@ -5,8 +5,8 @@
             <h3>{{data.name}}</h3>
             <div v-html="data.bio" v-if="data.bio"></div>
 
-            <div class="mb-3">Address: {{data.location.address}}, {{data.location.cities.name}},
-                {{data.location.states.name}}, {{data.location.countries.name}}
+            <div class="mb-3">Address: {{data.location.address}}, {{data.city.name}},
+                {{data.state.name}}, {{data.country.name}}
             </div>
 
             <p v-if="data.email">Email: {{data.email}}</p>
