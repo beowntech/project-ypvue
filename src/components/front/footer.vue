@@ -179,7 +179,7 @@
                         name: 'propertyDetail',
                         params: {
                             slug: data.seo != null ? data.seo[0].permalink : '',
-                            city: data.city.name.toLowerCase()
+                            city: data.city != null ? data.city.name.toLowerCase(): ''
                         }
                     }
                 }

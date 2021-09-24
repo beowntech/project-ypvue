@@ -1,7 +1,7 @@
 
 {
-    "auth0": { 
-            "domain": "YOUR DOMAIN NAME",
+    "vue_settings": {
+            "domain": "http://localhost:8080",
             "clientID": "YOUR clientID"
         },
     "apiUrl": {

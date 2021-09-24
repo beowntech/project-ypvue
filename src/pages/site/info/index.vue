@@ -23,8 +23,11 @@
                                         class="fa fa-location-arrow pcolor edit-pencil"></i></div>
                                 <div class="col-10 px-2">
                                     <p class="font-weight-bold">Address</p>
-                                    <p v-if="properties.location != null">
-                                        {{properties.location.address}},{{properties.location.cities.name}},{{properties.location.states.name}}</p>
+                                    <p v-if="properties.location && properties.location != null">
+                                        {{properties.location.address != null ?
+                                        properties.location.address : ""
+                                        }},{{properties.city.name}},{{properties.state.name}}
+                                    </p>
                                     <p v-else>Add Or Edit Address</p>
                                 </div>
                                 <div class="col-1 px-1"><i class="fa fa-pencil pcolor edit-pencil"
@@ -65,7 +68,7 @@
                                 </div>
                                 <div class="col-10 px-2">
                                     <p class="font-weight-bold">Website</p>
-                                    <p v-if="properties.website != null">{{properties.website}}</p>
+                                    <a class="pcolor" target="_blank" style="font-size: 14px" :href="properties.website" v-if="properties.website != null">{{properties.website}}</a>
                                     <p v-else>Add Or Edit Website</p>
                                 </div>
                                 <div class="col-1 px-1"><i class="fa fa-pencil pcolor edit-pencil"
@@ -78,7 +81,7 @@
                                 </div>
                                 <div class="col-10 px-2">
                                     <p class="font-weight-bold">Property Link</p>
-                                    <p>www.yogprerna.com/adiyogiyogpeeth</p>
+                                    <a class="pcolor" target="_blank" style="font-size: 12px" :href="getPropertyLink(propertyLink)">{{getPropertyLink(propertyLink)}}</a>
                                 </div>
                                 <div class="col-1 px-1"><i class="fa fa-share-alt pcolor edit-pencil"></i></div>
                             </div>
@@ -90,7 +93,7 @@
                                     <div class="mb-0" v-if="properties.social != null">
                                         <div class="mb-0">
                                             <tr role="row" class="row"
-                                                v-for="(data,i) in JSON.parse(properties.social.links)" :key="i">
+                                                v-for="(data,i) in properties.social.links" :key="i">
                                                 <td role="cell" class="col-3">{{data.social}}</td>
                                                 <td role="cell" class="col-6"><a class="pcolor" :href="data.link"
                                                                                  target="_blank">{{data.link |
@@ -813,7 +816,8 @@
                     }]
                 }],
                 socialTypes: [],
-                socialTypesSelected: []
+                socialTypesSelected: [],
+                propertyLink: ""
             }
         },
         watch: {
@@ -987,6 +991,7 @@
                         this.pinCode = res.data[0].location.pin
                     }
                     this.propertyEmail = res.data[0].email
+                    this.propertyLink = 'yoga-in-'+res.data[0].city.name.toLowerCase()+'/'+res.data[0].seo[0].permalink
                     this.contacts = []
                     if (res.data[0].contact != null) {
                         for (var i = 0; i < JSON.parse(res.data[0].contact).length; i++) {
@@ -996,10 +1001,10 @@
                     this.propertyWebsite = res.data[0].website
                     this.bioText = res.data[0].bio
                     if (res.data[0].social != null) {
-                        this.socialItems = JSON.parse(res.data[0].social.links)
+                        this.socialItems = res.data[0].social.links
                     }
                     if (res.data[0].services != null) {
-                        this.selectedService = JSON.parse(res.data[0].services)
+                        this.selectedService = res.data[0].services
                     }
                     if (res.data[0].call_timings != null) {
                         this.callTimings = JSON.parse(res.data[0].call_timings)
@@ -1034,7 +1039,7 @@
                         id: this.$store.getters.getProperty[0].id,
                         name: Name
                     }).then((res) => {
-
+                        console.log(res)
                         this.getProperties(true)
                     }).catch((err) => {
                         console.log(err)
@@ -1064,7 +1069,7 @@
                     city: this.selectedCity.code,
                     pin: this.pinCode
                 }).then((res) => {
-
+console.log(res)
                     this.alert("Address Updated Successfully", 'success', '', 'top-center')
                     this.getProperties(true)
                 }).catch((err) => {
@@ -1266,6 +1271,9 @@
                     duration: 2000
                 });
             },
+            getPropertyLink(val){
+                return config.vue_settings.domain + '/' + val
+            }
         },
         beforeMount() {
             this.$store.commit('setLoading', true)

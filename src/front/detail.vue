@@ -5,7 +5,7 @@
             <h3>{{data.name}}</h3>
             <div v-html="data.bio" v-if="data.bio"></div>
 
-            <div class="mb-3">Address: {{data.location.address}}, {{data.city.name}},
+            <div class="mb-3">Address: {{data.location != null ? data.location.address:""}}, {{data.city.name}},
                 {{data.state.name}}, {{data.country.name}}
             </div>
 
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div>Social Link:
-                <div v-for="(social,i) in JSON.parse(data.social.links)" :key="i">
+                <div v-for="(social,i) in data.social.links" :key="i">
                     <a :href="social.link" target="_blank">{{social.social}}</a>
                 </div>
             </div>

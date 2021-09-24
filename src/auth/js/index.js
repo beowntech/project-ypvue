@@ -6,13 +6,13 @@ const userlogin = 'islogged';
 const loginExpiryKey = 'tokenExpiry';
 const Userinfo = 'userinfo';
 const localStorageKey = 'loggedIn';
-const auth1 = new auth0.WebAuth({
-    domain: config.auth0.domain,
-    clientID: config.auth0.clientID,
-    responseType: 'id_token',
-    redirectUri:  window.location.origin + process.env.BASE_URL + "callback",
-    scope: 'openid profile' // define the scopes you want to use
-})
+// const auth1 = new auth0.WebAuth({
+//     domain: config.auth0.domain,
+//     clientID: config.auth0.clientID,
+//     responseType: 'id_token',
+//     redirectUri:  window.location.origin + process.env.BASE_URL + "callback",
+//     scope: 'openid profile' // define the scopes you want to use
+// })
 
 class Auth extends EventEmitter {
     authToken = null
