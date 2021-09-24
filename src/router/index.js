@@ -1617,7 +1617,7 @@ const routes = [
         ]
     },
     {
-        path: '/auth',
+        path: '/admin',
         component: Auth,
         children: [
             {
