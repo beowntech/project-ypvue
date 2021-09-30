@@ -717,7 +717,10 @@
                             </select>
                         </li>
                         <li class="ml-3">
-                            <router-link class="nav-link" :to="{ name: 'Login'}">user <i class="fa fa-user"></i></router-link>
+                            <router-link class="nav-link" :to="{ name: 'Login'}" v-if="loggedInUser == null">
+                                Login <i class="fa fa-user"></i></router-link>
+                            <router-link class="nav-link" :to="{ name: 'Properties'}" v-else>
+                                Dashboard <i class="fa fa-user"></i></router-link>
                         </li>
                     </ul>
                 </div>
@@ -760,7 +763,7 @@
 <!--                <ion-icon name="add-circle" class="site-icon"></ion-icon>-->
                 Add Listing </a>
           </span>
-                <b-button variant="success" class="seo-button p-0 px-2 m-0" @click="selectProperty(data)" v-if="this.$route.name == 'propertyDetail' || loggedIn">
+                <b-button variant="success" class="seo-button p-0 px-2 m-0" @click="selectProperty(data)" v-if="this.$route.name == 'propertyDetail' && $store.getters.getRole == 'editor'">
                     <i class="fa fa-lightbulb-o" style="font-size: 20px;font-size: 20px;padding: 7px;"></i>
                 </b-button>
             </div>
@@ -801,6 +804,7 @@
                 userName: "Name",
                 userRole: "",
                 localeOptions,
+                loggedInUser: this.$store.getters.getToken,
                 mixLayout: "light-only",
                 langIcon: localStorage.getItem('currentLanguageIcon') || 'flag-icon-us'
             };

@@ -4,7 +4,11 @@
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <b-input type="text" placeholder="Search Property" v-model="searchQuery"></b-input>
+                </div>
+                <div class="col-md-12 mt-3">
                     <div class="card">
                         <div class="card-body parab-0" v-if="properties.length != 0">
                             <div v-for="(data,index) in properties" :key="index">
@@ -18,12 +22,12 @@
                                         <div class="font-weight-bold" style="font-size: 19px;cursor: pointer;"
                                              @click.stop="selectProperty(data)">{{data.name}} <span
                                                 v-if="data.verified == '1'" class="text-success">Verified  <i
-                                                class="fa fa-check-circle-o"></i></span>
+                                                class="fa fa-check-circle-o"></i></span> <b-badge v-if="data.property_type == '2'" variant="primary">Institute</b-badge>
                                         </div>
                                         <p style="font-size: 15px;">{{
                                             data.location != null ?
-                                            (data.location.cities != null ?
-                                            (data.location.address != null ?data.location.address+',  ':'')+data.location.cities.name+', '+data.location.states.name+', '+data.location.countries.name: 'No Address')
+                                            (data.city != null ?
+                                            (data.location.address != null ?data.location.address+',  ':'')+data.city.name+', '+data.state.name: 'No Address')
                                             : 'No Address' }}</p>
                                     </div>
 
@@ -35,7 +39,9 @@
                                                   style="height: 70px !important;width: 70px!important;"/>
                                     </div>
                                     <div class="col-1 px-1 text-center align-self-center">
-                                        <i class="fa fa-eye" style="font-size: 18px"></i>
+                                        <router-link class="text-primary" target="_blank" :to="{ name: 'propertyDetail', params: { slug: data.seo != null ? data.seo[0].permalink:'',city: data.city.name.toLowerCase() }}">
+                                            <i class="fa fa-eye" style="font-size: 18px"></i>
+                                        </router-link>
                                     </div>
                                     <div class="col-1 px-1 text-center align-self-center"
                                          @click.stop="editProperty(data)"><i
@@ -49,6 +55,8 @@
                                         v-model="currentPage"
                                         :total-rows="totalRows"
                                         :per-page="10"
+                                        :limit="20"
+                                        :pills="true"
                                         aria-controls="my-table"
                                         class="pagination-info"
                                         align="right"
@@ -99,7 +107,8 @@
                 properties: [],
                 propertiesLoading: false,
                 currentPage: 1,
-                totalRows: 1
+                totalRows: 1,
+                searchQuery:""
             }
         },
         mounted() {
@@ -109,25 +118,55 @@
         },
         watch: {
             currentPage: function () {
-                this.getProperties()
+                if(this.searchQuery == "") {
+                    this.getProperties()
+                }
+            },
+            searchQuery: function (val) {
+                if(val != ""){
+                    console.log(val)
+                    this.searchProp()
+                }else{
+                    this.getProperties()
+                }
             }
         },
         methods: {
             openAddProperty(){
               this.$bvModal.show('add_property')
             },
-            getProperties() {
-                this.properties = []
-                this.propertiesLoading = true
-                axios.get(api.getProperties + '?token=' + this.$store.getters.getToken + '&page=' + this.currentPage)
+            searchProp(){
+                axios.get(api.searchProp + '?token=' + this.$store.getters.getToken + '&data=' + this.searchQuery)
                     .then((res) => {
+                        console.log(res)
                         this.properties = res.data.data;
                         this.currentPage = res.data.current_page
                         this.totalRows = res.data.total
                         this.propertiesLoading = false
                     }).catch((err) => {
                     this.$store.commit('logoutUser')
-                    this.$router.replace('/auth/login')
+                    this.$router.replace({name: 'Login'})
+                    console.log(err)
+                })
+            },
+            getProperties() {
+                this.properties = []
+                this.propertiesLoading = true
+                console.log(this.$store.getters.getToken)
+                axios.get(api.getProperties + '?token=' + this.$store.getters.getToken + '&page=' + this.currentPage)
+                    .then((res) => {
+                        console.log(res)
+                        if(res.data.total == 1){
+                            this.$store.commit('setProperty', res.data.data[0])
+                            this.$router.push({path:'/admin/dashboard'})
+                        }
+                        this.properties = res.data.data;
+                        this.currentPage = res.data.current_page
+                        this.totalRows = res.data.total
+                        this.propertiesLoading = false
+                    }).catch((err) => {
+                    this.$store.commit('logoutUser')
+                    this.$router.replace({name: 'Login'})
                     console.log(err)
                 })
             },
@@ -140,7 +179,10 @@
             },
             editProperty(data) {
                 this.$store.commit('setProperty', data)
-                this.$router.push({path:'/admin/info'})
+                this.$router.push({path:'/admin/property/info'})
+            },
+            viewProperty(data){
+                this.$router.push({path:'/admin/property/info'})
             }
         },
         beforeMount() {

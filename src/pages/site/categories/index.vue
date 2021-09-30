@@ -298,9 +298,9 @@
                     <b-input v-model="categoryName" placeholder="Category Name"></b-input>
                 </div>
                 <div class="col-md-6">
-                    <multiselect v-model="selectedParent" placeholder="Select Parent"
-                                 :max="1"
-                                 label="name" track-by="code" :options="categories.array"></multiselect>
+                    <multiselect v-model="selectedParent"
+                                 label="name" track-by="id"
+                                 :options="categories.array"></multiselect>
                 </div>
                 <div class="col-md-6 mt-3">
                     <div class="form-group row">
@@ -426,9 +426,9 @@
                 selectedCategory: [],
                 newCategoryAdded: false,
                 categoryIcon: null,
-                notDeletableCategories: [2, 3, 4, 5],
+                notDeletableCategories: [2, 3, 4, 5, 23],
                 selectedcategoryIcon: "",
-                selectedParent: [],
+                selectedParent: '',
                 selectedCategoryId: null,
                 editor: ClassicEditor,
             }

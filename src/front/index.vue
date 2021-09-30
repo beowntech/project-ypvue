@@ -1,7 +1,8 @@
 <template>
-    <div class="main-cont">
+    <div class="main-cont" id="main-temp">
         <section class="vh-80 bg-search-img"
-                 style="background:url('../assets-front/images/site/bg-main.jpg');  background-size:cover;background-position: center;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.4);">
+                 v-bind:style="{ backgroundImage: 'url(' + getImage + ')' }"
+                 style="background-size:cover;background-position: center;box-shadow:inset 0 0 0 2000px rgba(0, 0, 0, 0.4);">
             <div class="container align-middle py-5">
                 <div class="row ">
                     <div class="col-md-6 offset-md-3 text-center">
@@ -184,6 +185,7 @@
     // import "@/assets/css/bootstrap.min.css";
     import axios from 'axios'
     import apiUrls from "../_helpers/apiUrls";
+    import config from '../config.json'
 
     export default {
         name: "landing",
@@ -209,6 +211,9 @@
                     }).catch((err) => {
                     console.log(err)
                 })
+            },
+            getImage(){
+                return config.apiUrl.images + 'bg-main.jpg'
             }
         },
         created() {
@@ -230,5 +235,9 @@
     /*.main-cont  /deep/ {*/
     /*@*/
     /*}*/
+
+    * a{
+          color: initial;
+    }
 
 </style>

@@ -3,7 +3,7 @@ import Vuex from "vuex";
 // import 'es6-promise/auto';
 // import app from '../main';
 import layout from './modules/layout'
-import account from './modules/account'
+import {account} from './modules/account'
 import menu from './modules/menu'
 import chat from './modules/chat'
 import products from './modules/products'

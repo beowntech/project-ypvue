@@ -1,16 +1,15 @@
-
 {
-    "auth0": { 
-            "domain": "YOUR DOMAIN NAME",
+    "vue_settings": {
+            "domain": "http://yogprerna.com",
             "clientID": "YOUR clientID"
         },
     "apiUrl": {
-        "domain": "http://localhost:8000",
-        "api": "http://localhost:8000/api/",
-        "images": "http://localhost:8000/images/",
-        "propertyImage": "http://localhost:8000/property/",
-        "certificateImage": "http://localhost:8000/certificate/",
-        "courseImage": "http://localhost:8000/course/"
+        "domain": "http://api.yogprerna.com",
+        "api": "http://api.yogprerna.com/api/",
+        "images": "http://api.yogprerna.com/images/",
+        "propertyImage": "http://api.yogprerna.com/property/",
+        "certificateImage": "http://api.yogprerna.com/certificate/",
+        "courseImage": "http://api.yogprerna.com/course/"
     },
     "firebase":{
         "apiKey": "AIzaSyBQINKLKed3V_79zoxuRcmLXDzY-r0s_DA ",
@@ -21,4 +20,3 @@
         "messagingSenderId": "YOUR MESSAGESENDER ID"
     }
 }
-    

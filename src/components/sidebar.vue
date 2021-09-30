@@ -3,13 +3,13 @@
       <div class="logo-wrapper">
           <img
             class="img-fluid for-light"
-            src="../assets/images/logo/logo.png"
-            style="cursor: pointer;"
+            src="../assets/images/logo/yp1.png"
+            style="cursor: pointer;width: 40%;"
             @click="removeProperty"
             alt="" /><img
             class="img-fluid for-dark"
-            src="../assets/images/logo/logo_dark.png"
-            style="cursor: pointer;"
+            src="../assets/images/logo/yp1.png"
+            style="cursor: pointer;width: 40%;"
             alt=""
             @click="removeProperty"
         />
@@ -49,7 +49,21 @@
                 <span>Back</span><i class="fa fa-angle-right pl-2" aria-hidden="true"></i>
               </div>
             </li>
-           <li
+           <li class="sidebar-list sidebar-main-title" v-if="userVerified == null">
+             <div>
+               <div class="row mb-2">
+                 <div class="col-2">
+                   <i class="fa fa-envelope text-primary"></i>
+                 </div>
+                 <div class="col-10">
+                   <p class="lan-1 text-secondary" style="font-size: 14px">Please Verify your Email</p>
+                 </div>
+               </div>
+               <p>Email not Received?</p>
+               <p><a style="padding:0;color:blue;cursor: pointer">Resend Link</a></p>
+             </div>
+           </li>
+            <li
                 v-for="(menuItem, index) in menuItems"
                 :key="index"
                 :class="{'active': menuItem.active, 'sidebar-main-title' : menuItem.type == 'headtitle', 'd-none': !roleHeader(menuItem.rule) || !checkAfterSelect(menuItem.afterSelect)}"
@@ -272,7 +286,8 @@ export default {
       propertyName: "",
       propertyAddress: "",
       propertyLogo: '',
-      propertyId: null
+      propertyId: null,
+      userVerified: this.$store.getters.getUserVerify,
     };
   },
   computed: {
@@ -348,7 +363,10 @@ export default {
       }else{
         this.showMenu = false;
       }
-    }
+    },
+    "$store.getters.getUserVerify": function(){
+      this.userVerified = this.$store.getters.getUserVerify
+    },
   },
   methods: {
     roleShow(path){

@@ -3,7 +3,7 @@
         <Breadcrumbs main="Yoga Guru"
                      title="yoga guru"
                      :button-enable="true"
-                     button-title="Add Hiring"
+                     button-title="Add Guru"
                      @action="openAddModal"
         />
         <!-- Container-fluid starts-->
@@ -163,7 +163,7 @@
                 formData.append('prop', this.$store.getters.getProperty[0].id)
                 axios.post(api.addTeacher, formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data;'
+                        'Content-Type': 'multipart/form-data'
                     },
                 }).then((res) => {
                     this.alert(res.data['message'], res.data['color'])

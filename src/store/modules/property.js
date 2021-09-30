@@ -3,7 +3,8 @@ const state = {
     propertyName: null,
     propertyAddress: {},
     propertyLogo: null,
-    propertyFeatured: null
+    propertyFeatured: null,
+    propertyType: null,
 };
 const getters = {
     getProperty: (state) => {
@@ -13,11 +14,14 @@ const getters = {
                 'name': state.propertyName,
                 'location': state.propertyAddress,
                 'logo': state.propertyLogo,
-                'featured': state.propertyFeatured
+                'featured': state.propertyFeatured,
             }]
             return data;
         }
         return [];
+    },
+    getPropertyType(state){
+        return state.propertyType
     },
     getImage: (state) => {
         if (state.propertyId != null) {
@@ -44,6 +48,7 @@ const mutations = {
         state.propertyLogo = prop.gallery != null ? prop.gallery.logo : null
         state.propertyFeatured = prop.gallery != null ? prop.gallery.featured_image : null
         state.propertyAddress = prop.location != null ? prop.location : null
+        state.propertyType = prop.property_type
     },
     setLogo(state, prop) {
         state.propertyLogo = prop

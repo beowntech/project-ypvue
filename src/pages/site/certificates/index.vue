@@ -13,7 +13,7 @@
                 <div class="col-sm-3 col-xl-3" v-for="(data,i) in certificates" :key="i">
                     <div class="card">
                         <div class="guru-img">
-                            <img :src="'http://localhost:8000/certificate/'+data.images+'-md.webp'" alt=""
+                            <img :src="getCertificateImage(data.images+'-md.webp')" alt=""
                                  class="img-fluid p-3"
                                  style="width: 100%;">
                         </div>
@@ -68,6 +68,7 @@
     import apiUrls from "../../../_helpers/apiUrls";
     import CKEditor from '@ckeditor/ckeditor5-vue';
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+    import config from '../../../config.json'
 
     export default {
         name: "certificateIndex",
@@ -129,6 +130,9 @@
                     console.log(err)
                 })
             },
+            getCertificateImage(image){
+                return config.apiUrl.certificateImage + image
+            }
         },
         mounted() {
             this.getCertificates()

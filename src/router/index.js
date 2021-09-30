@@ -230,6 +230,7 @@ import CityPage from '../pages/site/location/city'
 import Landing from '../front/index'
 import FrontSearch from '../front/search'
 import FrontDetail from '../front/detail'
+import Review from '../front/review/index'
 
 import Seo from '../pages/site/seo/index'
 
@@ -297,6 +298,15 @@ const routes = [
                 path: 'yoga-in-:city/:slug',
                 name: 'propertyDetail',
                 component: FrontDetail,
+                meta: {
+                    rule: 'public',
+                    title: 'Detail',
+                }
+            },
+            {
+                path: 'review/:property/:user/:service',
+                name: 'review',
+                component: Review,
                 meta: {
                     rule: 'public',
                     title: 'Detail',
@@ -407,7 +417,7 @@ const routes = [
                 name: 'Keywords',
                 component: KeywordPage,
                 meta: {
-                    rule: 'multiple',
+                    rule: 'editor',
                     title: 'Keyword | Admin Template',
                 }
             },
@@ -416,7 +426,7 @@ const routes = [
                 name: 'State',
                 component: StatePage,
                 meta: {
-                    rule: 'multiple',
+                    rule: 'editor',
                     title: 'State | Admin Template',
                 }
             },
@@ -425,7 +435,7 @@ const routes = [
                 name: 'City',
                 component: CityPage,
                 meta: {
-                    rule: 'multiple',
+                    rule: 'editor',
                     title: 'City | Admin Template',
                 }
             },
@@ -1631,7 +1641,7 @@ const routes = [
             },
             {
                 path: 'register',
-                name: 'register 1',
+                name: 'Register',
                 component: Register,
                 meta: {
                     rule: 'public',
@@ -1974,12 +1984,12 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     // next();
     // console.log(to.meta.rule);
-    const token = store.getters.getToken;
+    const token = store.getters.getToken
     console.log(token)
     if (to.meta.rule != 'public') {
-        if (to.path != '/auth/login') {
+        if (to.path != '/admin/login') {
             if (token == null) {
-                next('/auth/login');
+                next('/admin/login');
             } else {
                 next();
             }

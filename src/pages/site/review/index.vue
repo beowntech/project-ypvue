@@ -5,20 +5,23 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body parab-0" v-if="propertyReviews != null && propertyReviews.length != 0">
-                            <div class="row" v-for="(data,i) in propertyReviews" :key="i">
+                    <div class="card" v-if="propertyReviews != null && propertyReviews.length != 0">
+                        <div class="card-body parab-0 pb-0" v-for="(data,i) in propertyReviews" :key="i">
+                            <div class="row">
                                 <div class="ribbon ribbon-clip-right ribbon-right" :class="{
                                     'ribbon-primary': data.flagged == 2,
                                     'ribbon-danger': data.flagged == 1,
-                                }" v-if="data.flagged != null">{{ getFlaggedTitle(data.flagged)}}</div>
+                                }" v-if="data.flagged != null">{{ getFlaggedTitle(data.flagged)}}
+                                </div>
                                 <div class="col-1 px-1  text-center">
                                     <img src="/img/1.4a00e803.jpg" alt="#" class="img-60 rounded-circle">
                                 </div>
                                 <div class="col-10 px-2">
                                     <p class="font-weight-bold">{{data.user.name}} -
                                         <span class="rating">
-                                           <star-rating style="display: inline-block!important;" :read-only="true" :star-size="17" :increment="0.5" :rating="data.star"  :animate="true" ></star-rating>
+                                           <star-rating style="display: inline-block!important;" :read-only="true"
+                                                        :star-size="17" :increment="0.5" :rating="data.star"
+                                                        :animate="true"></star-rating>
                                         </span>
                                     </p>
                                     <p>{{data.review}}</p>
@@ -28,26 +31,53 @@
                                         <img src="/img/1.4a00e803.jpg" alt="#" class="img-60 mr-2">
                                         <img src="/img/1.4a00e803.jpg" alt="#" class="img-60 mr-2">
                                     </div>
-                                    <hr>
-                                    <p>Reply: {{data.replies[0].review}}</p>
-                                    <textarea id="exampleFormControlTextarea4" v-model="reply" v-if="selectedId === data.id"  rows="3" class="form-control"></textarea>
-                                    <button id="default-outline-info-sm" type="button"
-                                            @click="showReply(data.id)"
-                                            class="btn btn-square btn-outline-info btn-outline-info btn-sm mt-2 ml-2"><i
-                                            class="fa fa-mail-reply"></i> {{selectedId == data.id ? 'Cancel': 'Reply'}}</button>
+                                    <textarea id="exampleFormControlTextarea4" v-model="reply"
+                                              v-if="selectedId === data.id" rows="3" class="form-control"></textarea>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card-body parab-0 pb-0" v-for="(replies,i) in data.replies"
+                                                 :key="i">
+                                                <div class="row">
+                                                    <div class="col-1 px-1  text-center">
+                                                        <img src="/img/1.4a00e803.jpg" alt="#"
+                                                             class="img-60 rounded-circle">
+                                                    </div>
+                                                    <div class="col-11 px-2">
+                                                        <p class="font-weight-bold">{{$store.getters.getName}}</p>
+                                                        <p>{{replies.review}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button id="default-outline-info-sm" type="button"
+                                                    @click="showReply(data.id)"
+                                                    v-if="data.replies.length == 0"
+                                                    class="btn btn-square btn-outline-info btn-outline-info btn-sm mt-2 ml-2">
+                                                <i
+                                                        class="fa fa-mail-reply"></i> {{selectedId == data.id ?
+                                                'Cancel': 'Reply'}}
+                                            </button>
+                                            <button type="button"
+                                                    v-else
+                                                    class="btn btn-square btn-outline-success btn-outline-info btn-sm mt-2 ml-2">
+                                                <i class="fa fa-mail-reply"></i> Edit
+                                            </button>
+                                        </div>
+                                    </div>
                                     <button id="default-outline-danger-sm" type="button"
                                             @click="addReply"
                                             v-if="selectedId == data.id"
                                             class="btn btn-square btn-outline-success btn-sm mt-2 ml-2">Submit <i
                                             class="fa fa-arrow-right"></i></button>
                                 </div>
-                                <div class="col-1 px-1"><i class="fa fa-flag edit-pencil" style="cursor: pointer" @click="selectedFlagId = data.id" v-b-modal.flag_review></i></div>
+                                <div class="col-1 px-1"><i class="fa fa-flag edit-pencil" style="cursor: pointer"
+                                                           @click="selectedFlagId = data.id" v-b-modal.flag_review></i>
+                                </div>
                             </div>
                             <hr v-if="propertyReviews.length > 1">
                         </div>
-                        <div class="card-body parab-0" v-else>
-                            No Reviews
-                        </div>
+                    </div>
+                    <div class="card parab-0" v-else>
+                        No Reviews
                     </div>
                 </div>
 
@@ -78,15 +108,15 @@
                 selectedId: 0,
             }
         },
-        components:{
+        components: {
             StarRating
         },
         methods: {
-            flagReview(){
+            flagReview() {
                 axios.post(apiUrls.flagReview, {
                     id: this.selectedFlagId
                 }).then((res) => {
-                    if(res.data.status == 1) {
+                    if (res.data.status == 1) {
                         this.getReviews()
                     }
                     console.log(res)
@@ -94,12 +124,12 @@
                     console.log(err)
                 })
             },
-            addReply(){
+            addReply() {
                 axios.post(apiUrls.addReply, {
                     id: this.selectedId,
                     reply: this.reply
                 }).then((res) => {
-                    if(res.data.status == 1) {
+                    if (res.data.status == 1) {
                         this.selectedId = 0
                         this.reply = ""
                         this.getReviews()
@@ -113,6 +143,7 @@
                 axios.post(apiUrls.getReviews, {
                     id: this.$store.getters.getProperty[0].id
                 }).then((res) => {
+                    console.log(res)
                     this.propertyReviews = res.data
                     console.log(res)
                 }).catch((err) => {
@@ -130,17 +161,17 @@
                     return 'fa fa-star-0';
                 }
             },
-            showReply(data){
-                if(data == this.selectedId){
-                 this.selectedId = 0
-                }else {
+            showReply(data) {
+                if (data == this.selectedId) {
+                    this.selectedId = 0
+                } else {
                     this.selectedId = data
                 }
             },
-            getFlaggedTitle(data){
-                if(data == 1){
+            getFlaggedTitle(data) {
+                if (data == 1) {
                     return 'Review Flagged'
-                }else if(data == 2){
+                } else if (data == 2) {
                     return 'Flag Sent to Admin'
                 }
             }

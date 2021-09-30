@@ -86,8 +86,11 @@
                                             <span class="badge badge-primary pull-right" v-else>New</span>
                                         </h6>
                                         <p>{{ data.website }}
-                                            <span>{{ data.city.name }}, {{ data.state.name }} </span><span
-                                                    v-html="stars(data.reviews_avg_star)"></span></p>
+                                            <span>{{ data.city.name }}, {{ data.state.name }} </span>
+                                            <star-rating v-model="data.reviews_avg_star" :star-size="15" :max-rating="5" :show-rating="false" :read-only="true"></star-rating>
+<!--                                            <span-->
+<!--                                                    v-html="stars(data.reviews_avg_star)"></span>-->
+</p>
                                     </div>
                                 </div>
                                 <p>{{data.bio|stripHTML|truncatesmall}}</p>
@@ -127,6 +130,7 @@
 <script>
     import {mapState} from "vuex";
     import config from '../config.json'
+    import StarRating from 'vue-star-rating';
 
     export default {
         name: 'Search',
@@ -149,6 +153,9 @@
                 cities: state => state.location.cities,
                 courses: state => state.course.courses,
             })
+        },
+        components:{
+            StarRating,
         },
         watch: {
             selectedCities:function (val) {

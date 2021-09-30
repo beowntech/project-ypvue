@@ -187,8 +187,11 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .noMargin {
         margin: 0 !important;
+    }
+    * a{
+        color: initial;
     }
 </style>

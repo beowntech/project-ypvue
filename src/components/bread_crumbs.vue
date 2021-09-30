@@ -92,7 +92,7 @@
 </script>
 <style>
     .bredcumbButton {
-        background-image: -webkit-gradient(linear, left top, right top, from(var(--theme-deafult)), to(#a26cf8));
+        background-image: -webkit-gradient(linear, left top, right top, from(var(--theme-deafult)), to(var(--theme-secondary)));
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
         position: relative;

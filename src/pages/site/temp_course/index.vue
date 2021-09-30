@@ -217,6 +217,7 @@
                     type: '',
                     estimated: '',
                 }],
+                propertyId: this.$store.getters.getProperty['id'],
                 priceTypes: [
                     {
                         value: '$',
@@ -238,6 +239,10 @@
                     }
                 ],
                 durationTypes: [
+                    {
+                        text: 'Hours',
+                        value: 'hours'
+                    },
                     {
                         text: 'Days',
                         value: 'day'
@@ -279,7 +284,7 @@
                         'Content-Type': 'multipart/form-data'
                     },
                 }).then((res) => {
-                        if (res.data.status == 1) {
+                        // if (res.data.status == 1) {
                             this.alert('Temporary Course Added Successfully','success','success','top-center')
                             this.courseName = ""
                             this.courseCategory = []
@@ -299,7 +304,7 @@
                             }]
                             this.addNew = false
                             this.getTempCourse()
-                        }
+                        // }
                         this.$store.commit('setLoading', false)
                         console.log(res)
                     }).catch((res) => {
@@ -318,8 +323,9 @@
                 })
             },
             getTempCourse() {
-                axios.post(apiUrls.getTempCourse)
-                    .then((res) => {
+                axios.post(apiUrls.getTempCourse,{
+                  prop_id: this.propertyId
+                }).then((res) => {
                         console.log(res)
                         this.$store.commit('setLoading', false)
                         if (res.data.length != 0) {

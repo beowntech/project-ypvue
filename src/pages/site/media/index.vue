@@ -37,16 +37,13 @@
                                         :key="index"
                                         class="col-xl-2 col-sm-3 m-0">
                                     <a @click="gindex = index">
-                                        <img :src="getpropertyPath(n.image)" class="img-thumbnail"
+                                        <img :src="getimgpath(n.image)" class="img-thumbnail"
                                              alt="Image description"/>
                                     </a>
-                                    <i class="fa fa-close" @click="deletableSelectedName = n.name" v-b-modal.delete_image style="    position: absolute;
-    text-align-last: center;
-    padding: 4px;
-    cursor: pointer;
-    right: 0;
-    width: 15%;
-    background: whitesmoke;"></i>
+                                    <i class="fa fa-close gallery-close" @click="deletableSelectedName = n.name"
+                                       v-b-modal.delete_image></i>
+                                    <i class="fa fa-pencil gallery-edit" @click="selectedEditImage = index"
+                                       v-b-modal.edit_image></i>
                                 </figure>
                                 <VueGallery
                                         :images="biglightgallery"
@@ -133,6 +130,24 @@
             </div>
         </b-modal>
 
+        <b-modal id="edit_image" centered
+                 title="Update Image"
+                 @ok="updateAlt"
+                 @cancel="selectedEditImage = null"
+                 @close="selectedEditImage = null"
+                 ok-title="Update"
+                 class="theme-modal">
+            <div class="row" v-if="selectedEditImage != null">
+                <div class="col-md-4">
+                    <img style="width: 90%" :src="getimgpath(lightgallery[selectedEditImage].image)">
+                </div>
+                <div class="col-md-8">
+                    <label>Alt Tag</label>
+                    <b-input type="text" placeholder="Enter Alt Tag (Remove if not Needed)" v-model="lightgallery[selectedEditImage].alt"></b-input>
+                </div>
+            </div>
+        </b-modal>
+
         <b-modal id="delete_image" centered title="Delete Image"
                  @ok="deleteGallery"
                  ok-title="Delete"
@@ -164,6 +179,7 @@
                 croppableLogoImage: '',
                 dragAndDropCapable: false,
                 progressInfos: [],
+                selectedEditImage: null,
                 logoCropped: false,
                 logoImageShow: this.$store.getters.getProperty[0].logo != null ? this.$store.getters.getProperty[0].logo + '-xl.webp' : null,
                 featuredImageShow: null,
@@ -196,7 +212,7 @@
                 galleryoptions: {
                     prevClass: "prev",
                     nextClass: "next"
-                }
+                },
             };
         },
         components: {
@@ -254,6 +270,17 @@
                     console.log(err)
                 });
             },
+            updateAlt() {
+                axios.post(apiUrls.updateAlt+'/'+this.propId, {
+                    data: this.lightgallery,
+                }).then((res) => {
+                    if (res.data.status == 1) {
+                        this.getGallery()
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
+            },
             uploadFile() {
                 if (this.uploads.length !== 0) {
                     for (var i = 0; i < this.uploads.length; i++) {
@@ -269,9 +296,7 @@
                                     'Content-Type': 'multipart/form-data'
                                 },
                             }).then((res) => {
-                            if (res.data.status != 1) {
-                                this.getGallery()
-                            }
+                                console.log(res)
                         }).catch((err) => {
                             console.log(err)
                         });
@@ -282,6 +307,9 @@
                                 mainImage: null,
                                 progress: 0
                             }]
+                        }
+                        if(this.uploads.length == (i-1)){
+                            this.getGallery()
                         }
                     }
                 }
@@ -349,26 +377,29 @@
             getbigimgpath(filename) {
                 return config.apiUrl.propertyImage + this.propId + '/gallery/' + filename;
             },
+            getimgpath(filename) {
+                return config.apiUrl.propertyImage + this.propId + '/gallery/' + filename + '-sm-350x200.webp';
+            },
             getLogoPlaceholder(val) {
                 return config.apiUrl.images + val
             },
             getFeaturedPlaceholder(val) {
                 return config.apiUrl.images + val
             },
-            deleteGallery(){
+            deleteGallery() {
                 console.log(this.deletableSelectedName)
-                axios.post(apiUrls.deleteGallery,{
+                axios.post(apiUrls.deleteGallery, {
                     id: this.propId,
                     name: this.deletableSelectedName
                 })
-                .then((res)=>{
-                    this.getGallery()
-                    this.alert('Image Deleted Successfully','success','success','top-center')
-                    console.log(res)
-                })
-                .catch(()=>{
+                    .then((res) => {
+                        this.getGallery()
+                        this.alert('Image Deleted Successfully', 'success', 'success', 'top-center')
+                        console.log(res)
+                    })
+                    .catch(() => {
 
-                })
+                    })
             },
             getGallery() {
                 this.lightgallery = []
@@ -381,13 +412,17 @@
                         if (res.data.status != 0) {
                             this.$store.commit('setLogo', res.data.status[0].logo)
                             this.$store.commit('setFeatured', res.data.status[0].featured_image)
-                            this.logoImageShow = res.data.status[0].logo != null ? res.data.status[0].logo + '-md.webp': null
-                            this.featuredImageShow = res.data.status[0].featured_image != null ? res.data.status[0].featured_image + '-md.webp': null
+                            this.logoImageShow = res.data.status[0].logo != null ? res.data.status[0].logo + '-md.webp' : null
+                            this.featuredImageShow = res.data.status[0].featured_image != null ? res.data.status[0].featured_image + '-md.webp' : null
                             if (res.data.status[0].gallery_image != null) {
                                 if (res.data.status[0].gallery_image.length != 0) {
                                     for (var i = 0; i < res.data.status[0].gallery_image.length; i++) {
-                                        this.lightgallery.push({image: res.data.status[0].gallery_image[i] + '-sm-350x200.webp',name:res.data.status[0].gallery_image[i]})
-                                        this.biglightgallery.push(this.getbigimgpath(res.data.status[0].gallery_image[i] + '-xl.webp'))
+                                        this.lightgallery.push({
+                                            image: res.data.status[0].gallery_image[i]['image'],
+                                            extension: res.data.status[0].gallery_image[i]['extension'],
+                                            alt: res.data.status[0].gallery_image[i]['alt'],
+                                        })
+                                        this.biglightgallery.push(this.getbigimgpath(res.data.status[0].gallery_image[i]['image'] + '-xl.webp'))
                                     }
                                 }
                             }
@@ -420,5 +455,23 @@
         font-size: 20px;
         border-radius: 7px;
         padding: 0px 15px;
+    }
+    .gallery-close{
+        position: absolute;
+        text-align-last: center;
+        padding: 4px;
+        cursor: pointer;
+        right: 10px;
+        width: 15%;
+        background: whitesmoke;
+    }
+    .gallery-edit{
+        position: absolute;
+        text-align-last: center;
+        padding: 4px;
+        cursor: pointer;
+        left: 10px;
+        width: 15%;
+        background: whitesmoke;
     }
 </style>

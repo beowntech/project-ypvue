@@ -126,14 +126,21 @@
                                     <div class="col-md-12 mt-3">
                                         <hr>
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <h4>Total Seats</h4>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-6">
                                         <label>Seats Count</label>
                                         <b-input type="number" v-model="totalSeats" placeholder="Enter Seats in Number Only"></b-input>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Course Type</label>
+                                        <multiselect v-model="course_type"
+                                                     placeholder="Select Course Type"
+                                                     label="name" track-by="id" :options="courseTypes"></multiselect>
+<!--                                        <b-input type="text" placeholder="Select Course Type"></b-input>-->
                                     </div>
                                     <div class="col-md-12 mt-3">
                                         <hr>
@@ -232,12 +239,15 @@
                 options: [],
                 courseDescription: "",
                 durationEnable: false,
+                courseTypes: [],
+                course_type: null,
                 selecteCourseId: null,
                 totalSeats: '',
                 addNew: false,
                 editor: ClassicEditor,
                 certImage: null,
                 featuredImage: null,
+                propertyId: this.$store.getters.getProperty[0].id,
                 duration: [{
                     count: '',
                     type: '',
@@ -264,6 +274,10 @@
                     }
                 ],
                 durationTypes: [
+                    {
+                        text: 'Hours',
+                        value: 'hours'
+                    },
                     {
                         text: 'Days',
                         value: 'day'
@@ -369,6 +383,18 @@
                     console.log(res)
                 })
             },
+            getCourseType(){
+                axios.post(apiUrls.getCourseType)
+                    .then((res) => {
+                        if (res.data.length != 0) {
+                            this.courseTypes = res.data
+                        } else {
+                            this.addNew = true
+                        }
+                    }).catch((err) => {
+                    console.log(err)
+                })
+            },
             deleteCourse(){
                 axios.post(apiUrls.deleteCourse,{
                     id: this.selecteCourseId
@@ -383,8 +409,10 @@
                 })
             },
             getCourse() {
-                axios.post(apiUrls.getCourse)
-                    .then((res) => {
+                console.log(this.propertyId)
+                axios.post(apiUrls.getCourse,{
+                  prop_id: this.propertyId
+                }).then((res) => {
                         console.log(res)
                         this.$store.commit('setLoading', false)
                         if (res.data.length != 0) {
@@ -471,6 +499,7 @@
             this.$store.commit('setLoading', true)
             this.getCategory()
             this.getCourse()
+            this.getCourseType()
         },
         components: {
             Multiselect,

@@ -12,29 +12,20 @@
                 <a class="logo">
                   <img
                     class="img-fluid for-light"
-                    src="../assets/images/logo/login.png"
+                    src="../assets/images/logo/yp1.png"
                     alt="looginpage"
+                    style="width: 30%;"
                   />
                   <img
                     class="img-fluid for-dark"
-                    src="../assets/images/logo/logo_dark.png"
+                    src="../assets/images/logo/yp1.png"
                     alt="looginpage"
+                    style="width: 30%;"
                   />
                 </a>
               </div>
-              <div class="login-main">
-                <b-card no-body>
-                  <b-tabs pills vertical>
-                    <b-tab active>
-                      <template #title>
-                        <img
-                          src="../assets/images/login/firebase.svg"
-                          id="firebase-tooltip"
-                        />
-                        <span>Login</span>
-                      </template>
-                      <b-card-text>
-                        <form class="theme-form">
+              <div class="login-main login-form-card">
+              <form class="theme-form">
                           <h4>Sign in to account</h4>
                           <p>Enter your email & password to login</p>
                           <div class="form-group">
@@ -129,15 +120,11 @@
                           </div>
                           <p class="mt-4 mb-0">
                             Don't have account?
-                            <router-link class="ml-2" tag="a" to="/auth/register" >
+                            <router-link class="ml-2" tag="a" :to="{name: 'Register'}" >
                             Create Account
                           </router-link>
                           </p>
                         </form>
-                      </b-card-text>
-                    </b-tab>
-                  </b-tabs>
-                </b-card>
               </div>
             </div>
           </div>
@@ -158,8 +145,8 @@ export default {
   data() {
     return {
       type: "password",
-      email: "editor@domain.com",
-      password: "secret",
+      email: "",
+      password: "",
       username: "",
       passwordjwt: "",
       submitted: false,
@@ -202,8 +189,9 @@ export default {
           this.$store.commit('userToken', res.data.token)
           this.$store.commit('userName', res.data.user)
           this.$store.commit('userEmail', res.data.email)
+          this.$store.commit('userEmailVerified', res.data.email_verified_at)
           this.$store.commit('userRole', res.data.roles[0].toLowerCase())
-          // console.log(res.data)
+          console.log(res.data)
           this.$acl.change(res.data.roles[0].toLowerCase())
           // console.log(this.$acl.)
           if(res.data.roles[0].toLowerCase() == "editor") {

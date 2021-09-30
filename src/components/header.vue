@@ -109,7 +109,6 @@ background-color: #cecece !important;
     </div>
     <div class="left-header col horizontal-wrapper pl-0">
       <ul class="horizontal-menu">
-
         <!-- <li class="mega-menu outside">
           <a
             class="nav-link"
@@ -664,6 +663,9 @@ export default {
       if (from !== to) {
         this.$router.go(this.$route.path);
       }
+    },
+    "$store.getters.getUserVerify": function(){
+      this.userVerified = this.$store.getters.getUserVerify
     },
     menuItems: function () {
       this.terms ? this.addFix() : this.removeFix();
