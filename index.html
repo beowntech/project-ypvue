@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8 title="Endless - Developer Friendly Best Vuejs Admin Template"><meta http-equiv=X-UA-Compatible content="IE=edge" title="Endless - Developer Friendly Best Vuejs Admin Template"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/apple-touch-icon.png><link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel=stylesheet><link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel=stylesheet><title>P1 Admin Panel</title><script src=https://cdn.auth0.com/w2/auth0-7.4.min.js></script><link href=/css/app.21c8f08e.css rel=preload as=style><link href=/css/chunk-vendors.06989132.css rel=preload as=style><link href=/js/app.360beaff.js rel=preload as=script><link href=/js/chunk-vendors.ac7416b2.js rel=preload as=script><link href=/css/chunk-vendors.06989132.css rel=stylesheet><link href=/css/app.21c8f08e.css rel=stylesheet></head><body><noscript><strong>We're sorry but Our Site Does'nt without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=/js/chunk-vendors.ac7416b2.js></script><script src=/js/app.360beaff.js></script></body><script src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js referrerpolicy=no-referrer></script><script src=https://code.jquery.com/jquery-3.5.1.slim.min.js integrity=sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js integrity=sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js integrity=sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF crossorigin=anonymous></script><script>$(document).ready(function(){
+
+      $('#itemslider').carousel({ interval: 3000 });
+
+      $('.carousel-showmanymoveone .item').each(function(){
+        var itemToClone = $(this);
+
+        for (var i=1;i<6;i++) {
+          itemToClone = itemToClone.next();
+
+          if (!itemToClone.length) {
+            itemToClone = $(this).siblings(':first');
+          }
+
+          itemToClone.children(':first-child').clone()
+                  .addClass("cloneditem-"+(i))
+                  .appendTo($(this));
+        }
+      });
+    });</script></html>
